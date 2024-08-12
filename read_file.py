@@ -8,6 +8,19 @@ def read_file(file_path):
             break
     return text
 
+def read_n_lines(file_path, n):
+    """ Return contents of stripped first n lines of file in a list """
+    lines = []
+    if n < 1:
+        return lines
+    with open(file_path, 'r') as f:
+        for line in f:
+            text = line.rstrip()
+            lines.append(text)
+            if len(lines) == n:
+                break
+    return lines   
+
 def read_fasta(file_path):
     """ Return fasta contents as {contig name: sequence} dict"""
     content = {}
