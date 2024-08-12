@@ -31,4 +31,15 @@ def read_fasta(file_path):
                 content[contig] = ''
             else:
                 content[contig] += line.rstrip()
-    return content                
+    return content          
+
+def parse_codon_table(file_path):
+    """ Read in the codon table and return as a dict """
+    all_parts = []
+    with open(file_path, 'r') as f:
+        for line in f:
+            all_parts += line.rstrip().split(' ')
+    parts = list(filter(bool, all_parts))
+    codons = [j for i, j in enumerate(parts) if not i%2]
+    acids = [j for i, j in enumerate(parts) if i%2]
+    return dict(zip(codons, acids))
