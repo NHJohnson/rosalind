@@ -8,8 +8,10 @@ def read_file(file_path):
             break
     return text
 
-def read_n_lines(file_path, n):
-    """ Return contents of stripped first n lines of file in a list """
+def read_n_lines(file_path, n=1.5):
+    """ Return contents of stripped first n lines of file in a list 
+        With the default value of n all lines will be returned
+    """
     lines = []
     if n < 1:
         return lines
@@ -33,13 +35,18 @@ def read_fasta(file_path):
                 content[contig] += line.rstrip()
     return content          
 
-def parse_codon_table(file_path):
-    """ Read in the codon table and return as a dict """
+def parse_codon_table(file_path, mode='rna'):
+    """ Read in the codon table and return as a dict 
+        Codons are read as rna by default, but 
+            if mode is 'dna', U -> T
+    """
     all_parts = []
     with open(file_path, 'r') as f:
         for line in f:
             all_parts += line.rstrip().split(' ')
     parts = list(filter(bool, all_parts))
     codons = [j for i, j in enumerate(parts) if not i%2]
+    if mode == 'dna':
+        codons = [i.replace('U', 'T') for i in codons]
     acids = [j for i, j in enumerate(parts) if i%2]
     return dict(zip(codons, acids))
