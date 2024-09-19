@@ -27,5 +27,6 @@ args = parser.parse_args()
 
 values = list(range(1, args.n+1))
 permuts = build_permut(values)
+print(len(permuts))
 print(permuts)
 
